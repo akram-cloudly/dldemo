@@ -5,9 +5,19 @@
 
 using namespace std;
 
+
+
+
+
 int main(int argc, char** argv)
 {
-  cout << "foo" << endl;
+  if(argc > 1)
+    {
+      init(argv[1]);
+    }
+  cout << f1(3) << endl;
 
+
+  
   return 0;
 }
