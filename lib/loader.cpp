@@ -7,11 +7,18 @@
 Loader::Loader(const char* _libname)
 {
   libname = _libname;
-  dlhandle = dlopen(libname, RTLD_NOW);
-  void* (*rf)() = (void* (*)())dlsym(dlhandle, "function_map");
-  if(rf)
+  if(libname)
     {
-      registered_functions = (std::map<std::string, void*>*) rf();
+      dlhandle = dlopen(libname, RTLD_NOW);
+      void* (*rf)() = (void* (*)())dlsym(dlhandle, "function_map");
+      if(rf)
+	{
+	  registered_functions = (std::map<std::string, void*>*) rf();
+	}
+      else
+	{
+	  registered_functions = new std::map<std::string, void*>();
+	}
     }
   else
     {
