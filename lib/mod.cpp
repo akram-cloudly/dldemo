@@ -3,6 +3,8 @@
 #include "loader.hpp"
 #include "mod.hpp"
 
+using namespace std;
+
 const char* configured_libname = NULL;
 Loader* loader = NULL;
 
@@ -38,13 +40,19 @@ int f1(int arg)
 
 
 
-
-Mod* create_mod_instance()
+shared_ptr<Mod> create_mod_instance()
 {
+
+  capture_source_as_str(shared_ptr<Mod> (*create_mod_instance)(), ftag);
+  create_mod_instance = (shared_ptr<Mod> (*)()) loader->get_function(ftag);
+  if(create_mod_instance)
+    {
+      return create_mod_instance();
+    }
   return NULL;
 }
 
-void destroy_mod_instance(Mod* ptr)
+void destroy_mod_instance(std::shared_ptr<Mod> ptr)
 {
-  
+  // delete ptr;
 }
